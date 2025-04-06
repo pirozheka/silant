@@ -8,6 +8,7 @@ from .models import (
     TechnicalService,
     Complaint
 )
+from .utils.roles import get_user_role
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
@@ -29,6 +30,15 @@ class ReferenceItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'type', 'description')
     list_filter = ('type',)
     search_fields = ('name', 'description')
+
+    def has_change_permission(self, request, obj=None):
+        return get_user_role(request.user) == "manager"
+
+    def has_add_permission(self, request):
+        return get_user_role(request.user) == "manager"
+
+    def has_delete_permission(self, request, obj=None):
+        return get_user_role(request.user) == "manager"
 
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
@@ -56,6 +66,18 @@ class VehicleAdmin(admin.ModelAdmin):
         'service_company__name',
     )
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        role = get_user_role(request.user)
+
+        if role == "client":
+            return qs.filter(client__user=request.user)
+        elif role == "service":
+            return qs.filter(service_company__user=request.user)
+        elif role == "manager":
+            return qs
+        return qs.none()
+
 @admin.register(TechnicalService)
 class TechnicalServiceAdmin(admin.ModelAdmin):
     list_display = (
@@ -74,6 +96,26 @@ class TechnicalServiceAdmin(admin.ModelAdmin):
         'tech_company__name',
     )
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        role = get_user_role(request.user)
+
+        if role == "client":
+            return qs.filter(vehicle__client__user=request.user)
+        elif role == "service":
+            return qs.filter(service_company__user=request.user)
+        elif role == "manager":
+            return qs
+        return qs.none()
+
+    def has_change_permission(self, request, obj=None):
+        role = get_user_role(request.user)
+        return role in ["manager", "service"]
+
+    def has_add_permission(self, request):
+        role = get_user_role(request.user)
+        return role in ["manager", "service"]
+
 @admin.register(Complaint)
 class ComplaintAdmin(admin.ModelAdmin):
     list_display = (
@@ -90,3 +132,21 @@ class ComplaintAdmin(admin.ModelAdmin):
         'failure_node__name',
         'recovery_method__name',
     )
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        role = get_user_role(request.user)
+
+        if role == "client":
+            return qs.filter(vehicle__client__user=request.user)
+        elif role == "service":
+            return qs.filter(vehicle__service_company__user=request.user)
+        elif role == "manager":
+            return qs
+        return qs.none()
+
+    def has_change_permission(self, request, obj=None):
+        return get_user_role(request.user) in ["manager", "service"]
+
+    def has_add_permission(self, request):
+        return get_user_role(request.user) in ["manager", "service"]

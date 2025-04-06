@@ -1,0 +1,20 @@
+{% if vehicle %}
+<p>Информация о комплектации и технических характеристиках Вашей техники</p>
+<table class="table">
+  <tbody>
+    <tr><th>Зав. № машины</th><td>{{ vehicle.serial_number }}</td></tr>
+    <tr><th>Модель техники</th><td>{{ vehicle.tech_model }}</td></tr>
+    <tr><th>Модель двигателя</th><td>{{ vehicle.engine_model }}</td></tr>
+    <tr><th>Зав. № двигателя</th><td>{{ vehicle.serial_engine }}</td></tr>
+    <tr><th>Модель трансмиссии</th><td>{{ vehicle.model_transmission }}</td></tr>
+    <tr><th>Зав. № трансмиссии</th><td>{{ vehicle.serial_transmission }}</td></tr>
+    <tr><th>Модель ведущего моста</th><td>{{ vehicle.model_axle }}</td></tr>
+    <tr><th>Зав. № ведущего моста</th><td>{{ vehicle.serial_axle }}</td></tr>
+    <tr><th>Модель управляемого моста</th><td>{{ vehicle.model_man_axle }}</td></tr>
+    <tr><th>Зав. № управляемого моста</th><td>{{ vehicle.serial_man_axle }}</td></tr>
+  </tbody>
+</table>
+<p>Для получения полных данных необходимо авторизоваться</p>
+{% elif search_mode %}
+<p class="search_unsuccess">Машина с таким заводским номером не найдена.</p>
+{% endif %}

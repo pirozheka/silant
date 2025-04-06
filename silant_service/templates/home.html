@@ -1,0 +1,51 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}
+  Главная страница
+{% endblock %}
+
+{% block description %}
+  <meta name="description" content="Надежная российская техника с гарантией от производителя, отечественные комплектующие, импортозамещение, доступные запчасти, сервис по всей территории РФ" />
+{% endblock %}
+
+{% block content %}
+  <section class="container">
+    <div class="options d-flex flex-row justify-content-center align-items-center gap-4">
+      <div class="option__item">
+        <div class="option__item-image">
+          <img src="{% static 'images/warranty.png' %}" alt="" />
+        </div>
+        <div class="option__item-caption">Уверенность в стабильности</div>
+        <div class="option__item-descr">Конструкторские решения направлены на долговечность, выносливость, износостойкость техники.</div>
+      </div>
+      <div class="option__item">
+        <div class="option__item-image">
+          <img src="{% static 'images/construction.png' %}" alt="" />
+        </div>
+        <div class="option__item-caption">Практичность в решениях</div>
+        <div class="option__item-descr">Наша техника стабильна в работе, удобна в эксплуатации, понятна и экономична в обслуживании.</div>
+      </div>
+      <div class="option__item">
+        <div class="option__item-image">
+          <img src="{% static 'images/leader.png' %}" alt="" />
+        </div>
+        <div class="option__item-caption">Ответственность лидера</div>
+        <div class="option__item-descr">Непрерывно совершенствуем технологии и расширяем сервисную инфраструктуру по всей территории РФ.</div>
+      </div>
+    </div>
+  </section>
+  <section class="data">
+    <div class="container">
+      <h2><b>Проверьте комплектацию и технические характеристики техники Силант</b></h2>
+      <form action="{% url 'vehicle_search' %}" method="get" class="search-form d-flex flex-row align-items-center gap-2" hx-get="{% url 'vehicle_search' %}" hx-target="#search-results" hx-swap="innerHTML">
+        {% csrf_token %}
+        <input type="text" name="serial_number" placeholder="Заводской номер" required />
+        <button type="submit">Поиск</button>
+      </form>
+      <div class="table-wrapper" id="search-results">
+        {% include 'partials/information_table.html' %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
