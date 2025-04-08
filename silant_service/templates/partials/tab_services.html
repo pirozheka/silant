@@ -1,0 +1,47 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Дата ТО</th>
+        <th>Вид ТО</th>
+        <th>Машина (зав. №)</th>
+        <th>Наработка</th>
+        <th>№ заказ-наряда</th>
+        <th>Дата заказ-наряда</th>
+        <th>Организация</th>
+        {% if role in "manager service client" %}
+          <th class="text-center">Действия</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for service in services %}
+        <tr>
+          <td>{{ service.service_date }}</td>
+          <td>{{ service.service_type.name }}</td>
+          <td>{{ service.vehicle.serial_number }}</td>
+          <td>{{ service.operating_hours }}</td>
+          <td>{{ service.order_number }}</td>
+          <td>{{ service.order_date }}</td>
+          <td>{{ service.tech_company.name }}</td>
+          {% if role in "manager service client" %}
+            <td class="text-center">
+              <div class="d-flex justify-content-center gap-2">
+                <a href="{% url 'technicalservice_detail' service.pk %}" class="btn btn-sm btn-outline-info">Просмотр</a>
+                <a href="{% url 'technicalservice_edit' service.pk %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+              </div>
+            </td>
+          {% endif %}
+        </tr>
+      {% empty %}
+        <tr><td colspan="8" class="text-center">Нет данных о техническом обслуживании.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% if role in "manager service client" %}
+  <div class="mb-3 text-end">
+    <a href="{% url 'technicalservice_create' %}" class="btn btn-success">Добавить ТО</a>
+  </div>
+{% endif %}

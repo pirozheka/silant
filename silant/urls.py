@@ -22,6 +22,7 @@ urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('service/', include('silant_service.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
 
 

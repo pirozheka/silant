@@ -34,7 +34,12 @@
     --main-blue: #163E6C;
     --main-red: #D20A11;
     --main-beige: #EBE6D6;
+    --bs-primary: var(--main-blue);
+    --bs-danger: var(--main-red);
+    --bs-link-color: var(--main-blue);
   }
+
+  
 
   a {
     text-decoration: none;
@@ -85,18 +90,20 @@
     height: 25px;
 }
  
-.header__contacts__auth {
-    padding-right: 20px;
-}
-
+.header__contacts__auth .btn,
 .header__contacts__auth button {
-    background-color: var(--main-beige);
-    color: var(--main-blue);
+  background-color: var(--main-beige);
+  color: var(--main-blue);
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  transition: all 0.2s ease;
 }
 
+.header__contacts__auth .btn:hover,
 .header__contacts__auth button:hover {
-    background-color: var(--main-red);
-    color: var(--main-beige);
+  background-color: var(--main-red);
+  color: var(--main-beige);
 }
 
 input {
@@ -162,4 +169,60 @@ input {
 
 .search-form {
   margin-top: 25px;
+}
+
+.login-box {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2em;
+  background: #f9f9f9;
+  border-radius: 1em;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.login-form button {
+  width: 100%;
+  padding: 0.5em;
+}
+
+.auth_warn {
+  color: var(--main-red);
+}
+
+.btn-primary {
+  background-color: var(--main-blue);
+}
+
+@media (max-width: 768px) {
+  .options {
+    flex-wrap: wrap;
+  }
+
+  .option__item {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-form input,
+  .search-form button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-box {
+    padding: 1em;
+    width: 100%;
+  }
+  .header__contacts {
+    display: none !important;
+  }
+
+  .header__image {
+    width: 100%;
+    height: auto;
+  }
 }

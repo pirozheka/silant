@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}Детали машины{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Информация о машине</h2>
+
+  <div class="card mb-4">
+    <div class="card-header fw-bold">Основные характеристики</div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Зав. № машины:</strong> {{ vehicle.serial_number }}</li>
+      <li class="list-group-item">
+        <strong>Модель техники:</strong> {{ vehicle.tech_model.name }}
+        {% if vehicle.tech_model.description %}<br><small class="text-muted">{{ vehicle.tech_model.description }}</small>{% endif %}
+      </li>
+      <li class="list-group-item">
+        <strong>Модель двигателя:</strong> {{ vehicle.engine_model.name }}
+        {% if vehicle.engine_model.description %}<br><small class="text-muted">{{ vehicle.engine_model.description }}</small>{% endif %}
+      </li>
+      <li class="list-group-item"><strong>Зав. № двигателя:</strong> {{ vehicle.serial_engine }}</li>
+    </ul>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header fw-bold">Трансмиссия и мосты</div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <strong>Модель трансмиссии:</strong> {{ vehicle.model_transmission.name }}
+        {% if vehicle.model_transmission.description %}<br><small class="text-muted">{{ vehicle.model_transmission.description }}</small>{% endif %}
+      </li>
+      <li class="list-group-item"><strong>Зав. № трансмиссии:</strong> {{ vehicle.serial_transmission }}</li>
+
+      <li class="list-group-item">
+        <strong>Модель ведущего моста:</strong> {{ vehicle.model_axle.name }}
+        {% if vehicle.model_axle.description %}<br><small class="text-muted">{{ vehicle.model_axle.description }}</small>{% endif %}
+      </li>
+      <li class="list-group-item"><strong>Зав. № ведущего моста:</strong> {{ vehicle.serial_axle }}</li>
+
+      <li class="list-group-item">
+        <strong>Модель управляемого моста:</strong> {{ vehicle.model_man_axle.name }}
+        {% if vehicle.model_man_axle.description %}<br><small class="text-muted">{{ vehicle.model_man_axle.description }}</small>{% endif %}
+      </li>
+      <li class="list-group-item"><strong>Зав. № управляемого моста:</strong> {{ vehicle.serial_man_axle }}</li>
+    </ul>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header fw-bold">Поставка и клиент</div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Дата отгрузки с завода:</strong> {{ vehicle.ship_date }}</li>
+      <li class="list-group-item"><strong>Договор поставки:</strong> {{ vehicle.contract_number_data }}</li>
+      <li class="list-group-item"><strong>Грузополучатель:</strong> {{ vehicle.recipient }}</li>
+      <li class="list-group-item"><strong>Адрес поставки:</strong> {{ vehicle.delivery_address }}</li>
+      <li class="list-group-item"><strong>Комплектация:</strong> {{ vehicle.configuration }}</li>
+      <li class="list-group-item"><strong>Клиент:</strong> {{ vehicle.client.name }}</li>
+      <li class="list-group-item"><strong>Сервисная компания:</strong> {{ vehicle.service_company.name }}</li>
+    </ul>
+  </div>
+
+  <div class="mb-4">
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Назад</a>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header fw-bold">Техническое обслуживание</div>
+    {% if vehicle.service.exists %}
+      <ul class="list-group list-group-flush">
+        {% for s in vehicle.service.all %}
+          <li class="list-group-item">
+            <strong>{{ s.service_date }}</strong> — {{ s.service_type.name }},
+            {{ s.operating_hours }} м/ч, заказ-наряд №{{ s.order_number }}
+            {% if s.service_type.description %}<br><small class="text-muted">{{ s.service_type.description }}</small>{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="card-body text-muted">ТО не зарегистрировано.</div>
+    {% endif %}
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header fw-bold">Рекламации</div>
+    {% if vehicle.complaint.exists %}
+      <ul class="list-group list-group-flush">
+        {% for c in vehicle.complaint.all %}
+          <li class="list-group-item">
+            <strong>{{ c.failure_date }}</strong> — {{ c.failure_node.name }}, {{ c.recovery_method.name }}
+            {% if c.failure_node.description or c.recovery_method.description %}
+              <br>
+              {% if c.failure_node.description %}
+                <small class="text-muted">Узел: {{ c.failure_node.description }}</small><br>
+              {% endif %}
+              {% if c.recovery_method.description %}
+                <small class="text-muted">Восстановление: {{ c.recovery_method.description }}</small>
+              {% endif %}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="card-body text-muted">Рекламаций не найдено.</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Рекламация{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Информация о рекламации</h2>
+  <div class="card">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <strong>Машина (зав. №):</strong> {{ complaint.vehicle.serial_number }}
+      </li>
+      <li class="list-group-item">
+        <strong>Дата отказа:</strong> {{ complaint.failure_date }}
+      </li>
+      <li class="list-group-item">
+        <strong>Наработка:</strong> {{ complaint.operating_hours }} м/ч
+      </li>
+      <li class="list-group-item">
+        <strong>Узел отказа:</strong> {{ complaint.failure_node.name }}
+        {% if complaint.failure_node.description %}<br><small class="text-muted">{{ complaint.failure_node.description }}</small>{% endif %}
+      </li>
+      <li class="list-group-item">
+        <strong>Описание отказа:</strong> {{ complaint.failure_description }}
+      </li>
+      <li class="list-group-item">
+        <strong>Способ восстановления:</strong> {{ complaint.recovery_method.name }}
+        {% if complaint.recovery_method.description %}<br><small class="text-muted">{{ complaint.recovery_method.description }}</small>{% endif %}
+      </li>
+      <li class="list-group-item">
+        <strong>Запасные части:</strong> {{ complaint.spare_parts }}
+      </li>
+      <li class="list-group-item">
+        <strong>Дата восстановления:</strong> {{ complaint.recovery_date }}
+      </li>
+      <li class="list-group-item">
+        <strong>Время простоя:</strong> {{ complaint.failure_duration }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="mt-3">
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Назад</a>
+    {% if role in "manager service" %}
+      <a href="{% url 'complaint_edit' complaint.pk %}" class="btn btn-primary">Редактировать</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

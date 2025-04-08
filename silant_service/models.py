@@ -217,9 +217,10 @@ class Complaint(models.Model):
     failure_description = models.TextField(verbose_name='Описание отказа')
     recovery_method = models.ForeignKey(
         ReferenceItem,
-        on_delete=models.SET_NULL, 
-        null=True, 
-        related_name='recovery_methods', 
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='recovery_methods',
+        limit_choices_to={'type': ReferenceItem.RECOVERY_METHOD},
         verbose_name='Способ восстановления'
     )
     spare_parts = models.TextField(verbose_name='Используемые запасные части')

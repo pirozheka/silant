@@ -12,8 +12,13 @@
   <section class="container">
     <h1>Список машин</h1>
 
+    <form method="get" class="mb-4">
+      {{ filter.form.as_p }}
+      <button type="submit">Фильтровать</button>
+    </form>
+
     {% for vehicle in vehicles %}
-      <div>
+      <div class="vehicle-row">
         <strong>Зав. №:</strong> {{ vehicle.serial_number }}<br />
         <strong>Модель техники:</strong> {{ vehicle.tech_model.name }}
       </div>

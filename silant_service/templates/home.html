@@ -38,6 +38,9 @@
   <section class="data">
     <div class="container">
       <h2><b>Проверьте комплектацию и технические характеристики техники Силант</b></h2>
+      {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}">Перейти к списку машин</a>
+      {% endif %}
       <form action="{% url 'vehicle_search' %}" method="get" class="search-form d-flex flex-row align-items-center gap-2" hx-get="{% url 'vehicle_search' %}" hx-target="#search-results" hx-swap="innerHTML">
         {% csrf_token %}
         <input type="text" name="serial_number" placeholder="Заводской номер" required />

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Детали ТО{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Информация о техническом обслуживании</h2>
+  <div class="card">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <strong>Машина (зав. №):</strong> {{ service.vehicle.serial_number }}
+      </li>
+      <li class="list-group-item">
+        <strong>Вид ТО:</strong> {{ service.service_type.name }}
+        {% if service.service_type.description %}<br><small class="text-muted">{{ service.service_type.description }}</small>{% endif %}
+      </li>
+      <li class="list-group-item">
+        <strong>Дата проведения ТО:</strong> {{ service.service_date }}
+      </li>
+      <li class="list-group-item">
+        <strong>Наработка:</strong> {{ service.operating_hours }} м/ч
+      </li>
+      <li class="list-group-item">
+        <strong>№ заказ-наряда:</strong> {{ service.order_number }} от {{ service.order_date }}
+      </li>
+      <li class="list-group-item">
+        <strong>Организация, проводившая ТО:</strong> {{ service.tech_company.name }}
+      </li>
+      <li class="list-group-item">
+        <strong>Сервисная компания:</strong> {{ service.service_company.name }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="mt-3">
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Назад</a>
+    {% if role in "manager service client" %}
+      <a href="{% url 'technicalservice_edit' service.pk %}" class="btn btn-primary">Редактировать</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

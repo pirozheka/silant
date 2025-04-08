@@ -1,20 +1,48 @@
 {% if vehicle %}
-<p>Информация о комплектации и технических характеристиках Вашей техники</p>
-<table class="table">
-  <tbody>
-    <tr><th>Зав. № машины</th><td>{{ vehicle.serial_number }}</td></tr>
-    <tr><th>Модель техники</th><td>{{ vehicle.tech_model }}</td></tr>
-    <tr><th>Модель двигателя</th><td>{{ vehicle.engine_model }}</td></tr>
-    <tr><th>Зав. № двигателя</th><td>{{ vehicle.serial_engine }}</td></tr>
-    <tr><th>Модель трансмиссии</th><td>{{ vehicle.model_transmission }}</td></tr>
-    <tr><th>Зав. № трансмиссии</th><td>{{ vehicle.serial_transmission }}</td></tr>
-    <tr><th>Модель ведущего моста</th><td>{{ vehicle.model_axle }}</td></tr>
-    <tr><th>Зав. № ведущего моста</th><td>{{ vehicle.serial_axle }}</td></tr>
-    <tr><th>Модель управляемого моста</th><td>{{ vehicle.model_man_axle }}</td></tr>
-    <tr><th>Зав. № управляемого моста</th><td>{{ vehicle.serial_man_axle }}</td></tr>
-  </tbody>
-</table>
-<p>Для получения полных данных необходимо авторизоваться</p>
+  <p>Информация о комплектации и технических характеристиках Вашей техники</p>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Зав. № машины</th>
+          <th>Модель техники</th>
+          <th>Модель двигателя</th>
+          <th>Зав. № двигателя</th>
+          <th>Модель трансмиссии</th>
+          <th>Зав. № трансмиссии</th>
+          <th>Модель ведущего моста</th>
+          <th>Зав. № ведущего моста</th>
+          <th>Модель управляемого моста</th>
+          <th>Зав. № управляемого моста</th>
+          <th>Дата отгрузки с завода</th>
+          {% if user.is_authenticated %}
+            <th>Действия</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ vehicle.serial_number }}</td>
+          <td>{{ vehicle.tech_model.name }}</td>
+          <td>{{ vehicle.engine_model.name }}</td>
+          <td>{{ vehicle.serial_engine }}</td>
+          <td>{{ vehicle.model_transmission.name }}</td>
+          <td>{{ vehicle.serial_transmission }}</td>
+          <td>{{ vehicle.model_axle.name }}</td>
+          <td>{{ vehicle.serial_axle }}</td>
+          <td>{{ vehicle.model_man_axle.name }}</td>
+          <td>{{ vehicle.serial_man_axle }}</td>
+          <td>{{ vehicle.ship_date }}</td>
+          {% if user.is_authenticated %}
+            <td>
+              <a href="{% url 'vehicle_detail' vehicle.pk %}" class="btn btn-sm btn-outline-info">Просмотр</a>
+            </td>
+          {% endif %}
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="auth_warn">Для получения полных данных необходимо авторизоваться</p>
 {% elif search_mode %}
-<p class="search_unsuccess">Машина с таким заводским номером не найдена.</p>
+  <p class="search_unsuccess">Машина с таким заводским номером не найдена.</p>
 {% endif %}

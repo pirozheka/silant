@@ -20,55 +20,55 @@
   </head>
   <body>
     <header>
-        <div class="container">
-            <div class="header rounded-2 d-flex flex-row justify-content-between align-items-center">
-                <a href="/" class="header__image">
-                    <img src="{% static 'images/logo.png' %}" alt="Лого">
-                </a>
-                <div class="header__contacts d-flex flex-column gap-2">
-                    <a href="tel:+78352201209" class="header__contacts__item d-flex flex-row align-items-center gap-2">
-                        <img src="{% static 'images/phone.png' %}" alt="phone">
-                        <span>+7-8352-20-12-09</span>
-                    </a>
-                    <a href="https://t.me/#" class="header__contacts__item d-flex flex-row align-items-center gap-2">
-                        <img src="{% static 'images/telegram.png' %}" alt="telegram">
-                        <span>Telegram</span>
-                    </a>
-                </div>
-                <div class="header__contacts__auth">
-                    {% if user.is_authenticated %}
-                        <p>Вы вошли как {{ user.username }} | <a href="{% url 'logout' %}">Выйти</a></p>
-                    {% else %}
-                    <button>Авторизация</button>
-                    {% endif %}
-                </div>
-            </div>
+      <div class="container">
+        <div class="header rounded-2 d-flex flex-row justify-content-between align-items-center">
+          <a href="/" class="header__image"><img src="{% static 'images/logo.png' %}" alt="Лого" /></a>
+          <div class="header__contacts d-flex flex-column gap-2">
+            <a href="tel:+78352201209" class="header__contacts__item d-flex flex-row align-items-center gap-2">
+              <img src="{% static 'images/phone.png' %}" alt="phone" />
+              <span>+7-8352-20-12-09</span>
+            </a>
+            <a href="https://t.me/#" class="header__contacts__item d-flex flex-row align-items-center gap-2">
+              <img src="{% static 'images/telegram.png' %}" alt="telegram" />
+              <span>Telegram</span>
+            </a>
+          </div>
+          <div class="header__contacts__auth">
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                <button type="submit">Выйти</button>
+              </form>
+            {% else %}
+              <a href="{% url 'account_login' %}" class="btn">Авторизация</a>
+            {% endif %}
+          </div>
         </div>
-        <div class="container pt-2">
-            <p>ЭЛЕКТРОННАЯ СЕРВИСНАЯ КНИЖКА "МОЙ СИЛАНТ"</p>
-        </div>
+      </div>
+      <div class="container pt-2">
+        <p>ЭЛЕКТРОННАЯ СЕРВИСНАЯ КНИЖКА "МОЙ СИЛАНТ"</p>
+      </div>
     </header>
     {% block content %}
 
     {% endblock %}
     <footer>
-        <div class="container">
-            <div class="footer rounded-2 d-flex flex-row justify-content-between align-items-center">
-                <div class="footer__contacts d-flex flex-column gap-2">
-                    <a href="tel:+78352201209" class="header__contacts__item d-flex flex-row align-items-center gap-2">
-                        <img src="{% static 'images/phone.png' %}" alt="phone">
-                        <span>+7-8352-20-12-09</span>
-                    </a>
-                    <a href="https://t.me/#" class="header__contacts__item d-flex flex-row align-items-center gap-2">
-                        <img src="{% static 'images/telegram.png' %}" alt="telegram">
-                        <span>Telegram</span>
-                    </a>
-                </div>
-                <div class="copyright">
-                    © Мой СИЛАНТ, 2022 г
-                </div>
-            </div>
+      <div class="container">
+        <div class="footer rounded-2 d-flex flex-row justify-content-between align-items-center">
+          <div class="footer__contacts d-flex flex-column gap-2">
+            <a href="tel:+78352201209" class="header__contacts__item d-flex flex-row align-items-center gap-2">
+              <img src="{% static 'images/phone.png' %}" alt="phone" />
+              <span>+7-8352-20-12-09</span>
+            </a>
+            <a href="https://t.me/#" class="header__contacts__item d-flex flex-row align-items-center gap-2">
+              <img src="{% static 'images/telegram.png' %}" alt="telegram" />
+              <span>Telegram</span>
+            </a>
+          </div>
+          <div class="copyright">© Мой СИЛАНТ, 2022 г</div>
         </div>
+      </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

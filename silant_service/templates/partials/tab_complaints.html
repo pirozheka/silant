@@ -1,0 +1,49 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Дата отказа</th>
+        <th>Машина (зав. №)</th>
+        <th>Наработка</th>
+        <th>Узел отказа</th>
+        <th>Описание отказа</th>
+        <th>Способ восстановления</th>
+        <th>Дата восстановления</th>
+        {% if role in "manager service" %}
+          <th class="text-center">Действия</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in complaints %}
+        <tr>
+          <td>{{ c.failure_date }}</td>
+          <td>{{ c.vehicle.serial_number }}</td>
+          <td>{{ c.operating_hours }}</td>
+          <td>{{ c.failure_node.name }}</td>
+          <td>{{ c.failure_description|truncatechars:40 }}</td>
+          <td>{{ c.recovery_method.name }}</td>
+          <td>{{ c.recovery_date }}</td>
+          {% if role in "manager service" %}
+            <td class="text-center">
+              <div class="d-flex justify-content-center gap-2">
+                <a href="{% url 'complaint_detail' c.pk %}" class="btn btn-sm btn-outline-info">Просмотр</a>
+                <a href="{% url 'complaint_edit' c.pk %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+              </div>
+            </td>
+          {% endif %}
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="8" class="text-center">Нет данных о рекламациях.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% if role in "manager service" %}
+  <div class="mb-3 text-end">
+    <a href="{% url 'complaint_create' %}" class="btn btn-success">Добавить рекламацию</a>
+  </div>
+{% endif %}
